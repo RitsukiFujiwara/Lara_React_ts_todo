@@ -50,6 +50,29 @@ class ExampleTest extends TestCase
         $response = $this->getJson("api/tasks");
         $response->assertJsonCount($tasks->count() -1);
     }
+
+    public function test_validate()
+    {
+        $data = [
+            'title' => ''
+        ];
+        $response = $this->postJson('api/tasks', $data);
+        $response->assertStatus(422)
+                 ->assertJsonValidationErrors([
+                    'title' => 'The タイトル field is required.'
+                 ]);
+    }
+    public function test_validate_maxlength()
+    {
+        $data = [
+            'title' => str_repeat('あ',256)
+        ];
+        $response = $this->postJson('api/tasks', $data);
+        $response->assertStatus(422)
+                 ->assertJsonValidationErrors([
+                    'title' => 'The タイトル must not be greater than 255 characters.'
+                 ]);
+    }
 }
 
 

@@ -31,6 +31,7 @@ const TaskPage:React.VFC = () => {
        return <div className="align-center">データの読み込みに失敗しました。</div>
    }else if(!tasks || tasks.length <= 0){
     return <div className="align-center">登録されたTODOはありません。</div>
+    
 }
     return (
         <>
